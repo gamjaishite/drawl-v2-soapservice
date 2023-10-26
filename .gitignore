@@ -38,3 +38,6 @@ build/
 .DS_Store
 
 .env
+db
+src/main/resources/posters/poster*
+src/main/resources/trailers/trailer*

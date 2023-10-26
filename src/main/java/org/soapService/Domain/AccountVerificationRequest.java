@@ -1,4 +1,4 @@
-package org.soapServiceV2.Domain;
+package org.soapService.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

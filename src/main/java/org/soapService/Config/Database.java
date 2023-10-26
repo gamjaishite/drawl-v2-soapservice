@@ -1,4 +1,4 @@
-package org.soapServiceV2.Config;
+package org.soapService.Config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

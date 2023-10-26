@@ -1,14 +1,14 @@
-package org.soapServiceV2;
+package org.soapService;
 
-import org.soapServiceV2.Services.AccountVerificationRequestServiceImpl;
-import org.soapServiceV2.Services.CatalogRequestServiceImpl;
-import org.soapServiceV2.Services.ReportUserServiceImpl;
+import org.soapService.Services.AccountVerificationRequestServiceImpl;
+import org.soapService.Services.CatalogRequestServiceImpl;
+import org.soapService.Services.ReportUserServiceImpl;
 
 import javax.xml.ws.Endpoint;
 
 public class App {
     public static void main(String[] args) {
-        String baseUrl = "http://0.0.0.0:8082/";
+        String baseUrl = "http://0.0.0.0:8083/";
 
         // Register services;
         Endpoint.publish(baseUrl + "catalog-request", new CatalogRequestServiceImpl());
