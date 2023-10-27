@@ -1,8 +1,12 @@
 <jws:handler-chains xmlns:jws="http://java.sun.com/xml/ns/javaee">
     <jws:handler-chain>
         <jws:handler>
-            <jws:handler-name>Handler</jws:handler-name>
-            <jws:handler-class>org.soapService.Handlers.Handler</jws:handler-class>
+            <jws:handler-name>LogHandler</jws:handler-name>
+            <jws:handler-class>org.soapService.Handlers.LogHandler</jws:handler-class>
+        </jws:handler>
+        <jws:handler>
+            <jws:handler-name>ClientHandler</jws:handler-name>
+            <jws:handler-class>org.soapService.Handlers.ClientHandler</jws:handler-class>
         </jws:handler>
     </jws:handler-chain>
 </jws:handler-chains>

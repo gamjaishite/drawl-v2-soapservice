@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Handler implements SOAPHandler<SOAPMessageContext> {
+public class LogHandler implements SOAPHandler<SOAPMessageContext> {
     //    public static ThreadLocal<Log> threadLocal = new ThreadLocal<>();
     private static LogRepository logRepository = new LogRepository();
 
@@ -62,7 +62,7 @@ public class Handler implements SOAPHandler<SOAPMessageContext> {
 
             // Format
             // [ClientName] -> [arg0]: <arg0_value>; [arg1]: <arg1_value>
-            String requestDescription = "[ClientName] ->" + (!args.isEmpty() ? " " : " No Args");
+            String requestDescription = "[" + context.get("client") + "] ->" + (!args.isEmpty() ? " " : " No Args");
             for (Map.Entry<String, String> entry : args.entrySet()) {
                 requestDescription += "[" + entry.getKey() + "]:";
                 requestDescription += entry.getValue() + "; ";
