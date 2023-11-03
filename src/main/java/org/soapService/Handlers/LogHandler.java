@@ -35,7 +35,7 @@ public class LogHandler implements SOAPHandler<SOAPMessageContext> {
             String endpoint = httpExchange.getRequestURI().toString();
             String operation = "";
             Map<String, String> args = new HashMap<>();
-
+            
             try {
                 SOAPBody soapBody = context.getMessage().getSOAPBody();
 

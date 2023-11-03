@@ -12,7 +12,7 @@ import lombok.Setter;
 public class AccountVerificationRequest {
     private int id;
     private String uuid;
-    private int userId;
+    private String userId;
     private String status;
     private String createdAt;
     private String updatedAt;

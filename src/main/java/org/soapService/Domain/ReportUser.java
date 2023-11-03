@@ -13,8 +13,8 @@ public class ReportUser {
     private int id;
     private String uuid;
     private String content;
-    private int reporterId;
-    private int reportedId;
+    private String reporterId;
+    private String reportedId;
     private String createdAt;
     private String updatedAt;
 }

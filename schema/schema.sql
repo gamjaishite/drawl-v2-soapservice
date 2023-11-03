@@ -41,7 +41,7 @@ CREATE TABLE account_verification_requests (
     id SERIAL PRIMARY KEY,
     uuid VARCHAR(36) UNIQUE NOT NULL,
 
-    user_id INT UNIQUE NOT NULL,
+    user_id VARCHAR(36) UNIQUE NOT NULL,
     status ENUM('PENDING', 'ACCEPTED', 'REJECTED'),
 
     created_at TIMESTAMP DEFAULT NOW(),
@@ -64,8 +64,8 @@ CREATE TABLE report_users (
     uuid VARCHAR(36) UNIQUE NOT NULL,
 
     content VARCHAR(255) NOT NULL,
-    reporter_id INT NOT NULL,
-    reported_id INT NOT NULL,
+    reporter_id VARCHAR(36) NOT NULL,
+    reported_id VARCHAR(36) NOT NULL,
 
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()

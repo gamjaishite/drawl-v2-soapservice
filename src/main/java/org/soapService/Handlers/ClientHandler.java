@@ -18,6 +18,7 @@ public class ClientHandler implements SOAPHandler<SOAPMessageContext> {
 
     public boolean handleMessage(SOAPMessageContext context) {
         Boolean outboundProperty = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+        Integer httpExchange = (Integer) context.get(MessageContext.HTTP_RESPONSE_CODE);
 
         if (!outboundProperty) {
             Map<String, List<String>> headers = (Map<String, List<String>>) context.get(MessageContext.HTTP_REQUEST_HEADERS);
