@@ -9,19 +9,20 @@ import org.soapService.Utils.FileUploader;
 
 import javax.activation.DataHandler;
 import javax.jws.WebService;
+import javax.xml.ws.soap.SOAPFaultException;
 import java.util.List;
 
 @WebService(endpointInterface = "org.soapService.Services.CatalogRequestService")
 public class CatalogRequestServiceImpl extends BaseService implements CatalogRequestService {
-    public boolean createRequest(String title, String description, String poster, String trailer, String category) throws RequestException {
+    public boolean createRequest(String title, String description, String poster, String trailer, String category) throws SOAPFaultException {
         return false;
     }
 
-    public List<CatalogRequest> getRequests() throws RequestException {
+    public List<CatalogRequest> getRequests() throws SOAPFaultException {
         return null;
     }
 
-    public CatalogRequest getRequest(int requestId) throws RequestException {
+    public CatalogRequest getRequest(int requestId) throws SOAPFaultException {
         // For testing purpose
 
         CatalogRequest cr = new CatalogRequest();
@@ -29,30 +30,30 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
         return cr;
     }
 
-    public boolean acceptRequest(int requestId) throws RequestException {
+    public boolean acceptRequest(int requestId) throws SOAPFaultException {
         return false;
     }
 
-    public boolean rejectRequest(int requestId) throws RequestException {
+    public boolean rejectRequest(int requestId) throws SOAPFaultException {
         return false;
     }
 
-    public boolean deleteRequest(int requestId) throws RequestException {
+    public boolean deleteRequest(int requestId) throws SOAPFaultException {
         System.out.println(requestId);
         return false;
     }
 
-    public ServiceResponse testUpload(DataHandler dataHandler) throws RequestException {
+    public ServiceResponse testUpload(DataHandler dataHandler) throws SOAPFaultException {
         try {
             boolean valid = FileUploader.validateImage(dataHandler);
             if (valid) {
                 FileUploader.upload(dataHandler, FileType.IMAGE);
             } else {
-                throw new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Invalid data");
+                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Invalid data");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(), e.getMessage());
+            new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(), e.getMessage());
         }
 
         ServiceResponse response = new ServiceResponse();

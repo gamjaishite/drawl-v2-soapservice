@@ -1,28 +1,24 @@
 package org.soapService.Exceptions;
 
-import lombok.NoArgsConstructor;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.soap.SOAPFault;
+import javax.xml.ws.soap.SOAPFaultException;
 
-import javax.xml.ws.WebFault;
+public class RequestException {
+    public RequestException(String faultCode, String faultString) throws SOAPFaultException {
+        try {
+            SOAPFactory soapFactory = SOAPFactory.newInstance();
+            SOAPFault soapFault = soapFactory.createFault();
+            soapFault.setFaultCode(faultCode);
+            soapFault.setFaultString(faultString);
 
-@NoArgsConstructor
-@WebFault(name = "RequestFault", faultBean = "org.soapService.Exceptions.RequestFault")
-public class RequestException extends Exception {
-    private RequestFault fault;
-
-    protected RequestException(RequestFault fault) {
-        super(fault.getFaultString());
-        this.fault = fault;
+            throw new SOAPFaultException(soapFault);
+        } catch (SOAPFaultException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public RequestException(String code, String message) {
-        super(message);
-        this.fault = new RequestFault();
-        this.fault.setFaultString(message);
-        this.fault.setFaultCode(code);
-    }
-
-    public RequestFault getFaultInfo() {
-        return fault;
-    }
 }
 
