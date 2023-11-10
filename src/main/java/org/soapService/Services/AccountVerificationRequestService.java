@@ -1,16 +1,19 @@
 package org.soapService.Services;
 
+import org.soapService.Common.ServiceResponse;
 import org.soapService.Domain.AccountVerificationRequest;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.util.List;
 
 @WebService
+@XmlSeeAlso({ ServiceResponse.class })
 @HandlerChain(file = "handler-chain.xml")
 public interface AccountVerificationRequestService {
     @WebMethod(operationName = "GetRequests")
@@ -19,7 +22,8 @@ public interface AccountVerificationRequestService {
 
     @WebMethod(operationName = "CreateRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.CreateRequest")
-    public boolean createRequest() throws SOAPFaultException;
+    public ServiceResponse<AccountVerificationRequest> createRequest(@WebParam(name = "userId") String userId)
+            throws SOAPFaultException;
 
     @WebMethod(operationName = "AcceptRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.AcceptRequest")
