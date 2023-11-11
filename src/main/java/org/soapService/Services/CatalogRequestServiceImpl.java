@@ -18,27 +18,26 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.List;
 
 @WebService(endpointInterface = "org.soapService.Services.CatalogRequestService")
 public class CatalogRequestServiceImpl extends BaseService implements CatalogRequestService {
-    public boolean createRequest(String title, String description, String poster, String trailer, String category) throws SOAPFaultException {
-        return false;
-    }
-
-    public List<CatalogRequest> getRequests() throws SOAPFaultException {
+    public ServiceResponse createCatalogRequest(String title, String description, String poster, String trailer, String category) throws SOAPFaultException {
         return null;
     }
 
-    public CatalogRequest getRequest(int requestId) throws SOAPFaultException {
+    public ServiceResponse<CatalogRequest> getCatalogRequests() throws SOAPFaultException {
+        return null;
+    }
+
+    public ServiceResponse<CatalogRequest> getCatalogRequest(int requestId) throws SOAPFaultException {
         // For testing purpose
 
         CatalogRequest cr = new CatalogRequest();
         cr.setId(requestId);
-        return cr;
+        return null;
     }
 
-    public boolean acceptRequest(int requestId) throws SOAPFaultException {
+    public ServiceResponse acceptCatalogRequest(int requestId) throws SOAPFaultException {
         // Example of sending http request to php
         try {
             HttpURLConnection conn = HTTPRequest.getConnection("/catalog", HTTPRequestMethod.POST);
@@ -73,16 +72,16 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
         } catch (Exception e) {
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(), e.getMessage());
         }
-        return false;
+        return null;
     }
 
-    public boolean rejectRequest(int requestId) throws SOAPFaultException {
-        return false;
+    public ServiceResponse rejectCatalogRequest(int requestId) throws SOAPFaultException {
+        return null;
     }
 
-    public boolean deleteRequest(int requestId) throws SOAPFaultException {
+    public ServiceResponse deleteCatalogRequest(int requestId) throws SOAPFaultException {
         System.out.println(requestId);
-        return false;
+        return null;
     }
 
     public ServiceResponse testUpload(DataHandler dataHandler) throws SOAPFaultException {

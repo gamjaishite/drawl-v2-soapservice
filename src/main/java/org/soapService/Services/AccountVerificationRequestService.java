@@ -10,30 +10,29 @@ import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.soap.SOAPFaultException;
-import java.util.List;
 
 @WebService
-@XmlSeeAlso({ ServiceResponse.class })
+@XmlSeeAlso({ServiceResponse.class})
 @HandlerChain(file = "handler-chain.xml")
 public interface AccountVerificationRequestService {
     @WebMethod(operationName = "GetRequests")
     @RequestWrapper(className = "AccountVerificationRequestService.GetRequests")
-    public List<AccountVerificationRequest> getRequests() throws SOAPFaultException;
+    public ServiceResponse<AccountVerificationRequest> getAccountVerificationRequests() throws SOAPFaultException;
 
     @WebMethod(operationName = "CreateRequest")
-    @RequestWrapper(className = "AccountVerificationRequestService.CreateRequest")
-    public ServiceResponse<AccountVerificationRequest> createRequest(@WebParam(name = "userId") String userId)
+    @RequestWrapper(className = "AccountVerificationRequestService.AccountVerificationCreateRequest")
+    public ServiceResponse<AccountVerificationRequest> createAccountVerificationRequest(@WebParam(name = "userId") String userId)
             throws SOAPFaultException;
 
     @WebMethod(operationName = "AcceptRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.AcceptRequest")
-    public boolean acceptRequest(@WebParam(name = "userId") int userId) throws SOAPFaultException;
+    public ServiceResponse acceptAccountVerificationRequest(@WebParam(name = "userId") int userId) throws SOAPFaultException;
 
     @WebMethod(operationName = "RejectRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.RejectRequest")
-    public boolean rejectRequest(@WebParam(name = "userId") int userId) throws SOAPFaultException;
+    public ServiceResponse rejectAccountVerificationRequest(@WebParam(name = "userId") int userId) throws SOAPFaultException;
 
     @WebMethod(operationName = "DeleteRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.DeleteRequest")
-    public boolean deleteRequest(@WebParam(name = "requestId") int requestId) throws SOAPFaultException;
+    public ServiceResponse deleteAccountVerificationRequest(@WebParam(name = "requestId") int requestId) throws SOAPFaultException;
 }

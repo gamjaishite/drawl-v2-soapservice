@@ -18,7 +18,7 @@ public class ReportUserServiceImpl extends BaseService implements ReportUserServ
     private static ReportUserRepository reportUserRepository = new ReportUserRepository();
     private static ReportUserServiceValidation reportUserServiceValidation = new ReportUserServiceValidation();
 
-    public ServiceResponse<ReportUser> createReport(String content, String reportedId, String reporterId) throws SOAPFaultException {
+    public ServiceResponse<ReportUser> createReportUser(String content, String reportedId, String reporterId) throws SOAPFaultException {
         List<ReportUser> lru = new ArrayList<>();
         try {
             reportUserServiceValidation.validateCreateReport(content, reportedId, reporterId);
@@ -49,17 +49,17 @@ public class ReportUserServiceImpl extends BaseService implements ReportUserServ
     }
 
 
-    public ReportUser getReportedUsers() throws SOAPFaultException {
+    public ServiceResponse<ReportUser> getReportedUsers() throws SOAPFaultException {
         return null;
     }
 
 
-    public boolean blockUser(int userId) throws SOAPFaultException {
-        return false;
+    public ServiceResponse blockUser(int userId) throws SOAPFaultException {
+        return null;
     }
 
 
-    public boolean deleteReport(int reportId) throws SOAPFaultException {
-        return false;
+    public ServiceResponse deleteReportUser(int reportId) throws SOAPFaultException {
+        return null;
     }
 }
