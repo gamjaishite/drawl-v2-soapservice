@@ -1,6 +1,7 @@
 package org.soapService.Repository;
 
 import org.soapService.Config.Database;
+import org.soapService.Domain.GetAllResponse;
 import org.soapService.Domain.Log;
 
 import java.sql.Connection;
@@ -22,7 +23,7 @@ public class LogRepository implements BaseRepository<Log> {
         return ps.executeUpdate();
     }
 
-    public List<Log> getAll() throws SQLException {
+    public GetAllResponse<Log> getAll(int page, int pageSize) throws SQLException {
         return null;
     }
 
@@ -30,7 +31,7 @@ public class LogRepository implements BaseRepository<Log> {
         return null;
     }
 
-    public void update(int id) throws SQLException {
+    public void update(Log id) throws SQLException {
 
     }
 
