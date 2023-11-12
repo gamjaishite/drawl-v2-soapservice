@@ -1,6 +1,7 @@
 package org.soapService.Repository;
 
 import org.soapService.Config.Database;
+import org.soapService.Domain.GetAllResponse;
 import org.soapService.Domain.ReportUser;
 
 import java.sql.Connection;
@@ -23,7 +24,7 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
         return ps.executeUpdate();
     }
 
-    public List<ReportUser> getAll() throws SQLException {
+    public GetAllResponse<ReportUser> getAll(int page, int pageSize) throws SQLException {
         return null;
     }
 
@@ -31,15 +32,15 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
         return null;
     }
 
-    public void update(int id) throws SQLException {
-
+    public int update(ReportUser id) throws SQLException {
+        return 0;
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
-
+    public int delete(int id) throws SQLException {
+        return 0;
     }
 }

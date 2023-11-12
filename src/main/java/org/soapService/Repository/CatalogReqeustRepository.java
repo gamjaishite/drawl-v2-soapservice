@@ -2,6 +2,7 @@ package org.soapService.Repository;
 
 import org.soapService.Config.Database;
 import org.soapService.Domain.CatalogRequest;
+import org.soapService.Domain.GetAllResponse;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +28,7 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         return ps.executeUpdate();
     }
 
-    public List<CatalogRequest> getAll() throws SQLException {
+    public GetAllResponse<CatalogRequest> getAll(int page, int pageSize) throws SQLException {
         return null;
     }
 
@@ -35,15 +36,15 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         return null;
     }
 
-    public void update(int id) throws SQLException {
-
+    public int update(CatalogRequest id) throws SQLException {
+        return 0;
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
-
+    public int delete(int id) throws SQLException {
+        return 0;
     }
 }
