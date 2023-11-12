@@ -87,22 +87,22 @@ public class AccountVerificationRequestRepository implements BaseRepository<Acco
         return rows.get(0);
     }
 
-    public void update(AccountVerificationRequest data) throws SQLException {
-        String query = "UPDATE account_verification_requests SET status = ? WHERE user_id = ?";
+    public int update(AccountVerificationRequest data) throws SQLException {
+        String query = "UPDATE account_verification_requests SET status = ? WHERE user_id = ? AND status = 'PENDING'";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setString(1, data.getStatus());
         ps.setString(2, data.getUserId());
-        ps.executeUpdate();
+        return ps.executeUpdate();
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
+    public int delete(int id) throws SQLException {
         String query = "DELETE FROM account_verification_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, id);
-        ps.executeUpdate();
+        return ps.executeUpdate();
     }
 }

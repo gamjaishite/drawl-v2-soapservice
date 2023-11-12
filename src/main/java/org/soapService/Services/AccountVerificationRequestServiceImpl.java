@@ -101,7 +101,11 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
             accountVerificationRequest.setUserId(userId);
             accountVerificationRequest.setStatus("ACCEPTED");
 
-            accountVerificationRepository.update(accountVerificationRequest);
+            int res = accountVerificationRepository.update(accountVerificationRequest);
+            if (res == 0) {
+                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
+                        "This user doesn't have a request or already verified");
+            }
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), e.getMessage());
@@ -115,6 +119,12 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
                 new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
                         "Something went wrong, please try again later");
             }
+        } catch (SOAPFaultException e) {
+            if (e.getFault().getFaultCode().equals(HTTPStatusCode.BAD_REQUEST.getCodeStr())) {
+                throw e;
+            }
+            new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
+                    "Something went wrong, please try again later");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
@@ -138,7 +148,11 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
             accountVerificationRequest.setUserId(userId);
             accountVerificationRequest.setStatus("REJECTED");
 
-            accountVerificationRepository.update(accountVerificationRequest);
+            int res = accountVerificationRepository.update(accountVerificationRequest);
+            if (res == 0) {
+                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
+                        "This user doesn't have a request or already verified");
+            }
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), e.getMessage());
@@ -152,6 +166,12 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
                 new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
                         "Something went wrong, please try again later");
             }
+        } catch (SOAPFaultException e) {
+            if (e.getFault().getFaultCode().equals(HTTPStatusCode.BAD_REQUEST.getCodeStr())) {
+                throw e;
+            }
+            new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
+                    "Something went wrong, please try again later");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
@@ -171,7 +191,12 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
         List<AccountVerificationRequest> lru = new ArrayList<>();
         try {
             accountVerificationServiceValidation.validateDeleteVerificationRequest(requestId);
-            accountVerificationRepository.delete(requestId);
+            int res = accountVerificationRepository.delete(requestId);
+
+            if (res == 0) {
+                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
+                        "This request doesn't exist");
+            }
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), e.getMessage());
@@ -185,6 +210,12 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
                 new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
                         "Something went wrong, please try again later");
             }
+        } catch (SOAPFaultException e) {
+            if (e.getFault().getFaultCode().equals(HTTPStatusCode.BAD_REQUEST.getCodeStr())) {
+                throw e;
+            }
+            new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
+                    "Something went wrong, please try again later");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),

@@ -11,10 +11,10 @@ public interface BaseRepository<T> {
 
     public T getById(int id) throws SQLException;
 
-    public void update(T data) throws SQLException;
+    public int update(T data) throws SQLException;
 
     public void deleteAll() throws SQLException;
 
-    public void delete(int id) throws SQLException;
+    public int delete(int id) throws SQLException;
 
 }

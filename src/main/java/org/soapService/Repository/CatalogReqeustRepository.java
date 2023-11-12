@@ -19,15 +19,15 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         return null;
     }
 
-    public void update(CatalogRequest id) throws SQLException {
-
+    public int update(CatalogRequest id) throws SQLException {
+        return 0;
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
-
+    public int delete(int id) throws SQLException {
+        return 0;
     }
 }

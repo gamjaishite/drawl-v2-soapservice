@@ -32,15 +32,15 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
         return null;
     }
 
-    public void update(ReportUser id) throws SQLException {
-
+    public int update(ReportUser id) throws SQLException {
+        return 0;
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
-
+    public int delete(int id) throws SQLException {
+        return 0;
     }
 }

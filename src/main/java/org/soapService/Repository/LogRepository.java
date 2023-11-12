@@ -31,15 +31,15 @@ public class LogRepository implements BaseRepository<Log> {
         return null;
     }
 
-    public void update(Log id) throws SQLException {
-
+    public int update(Log id) throws SQLException {
+        return 0;
     }
 
     public void deleteAll() throws SQLException {
 
     }
 
-    public void delete(int id) throws SQLException {
-
+    public int delete(int id) throws SQLException {
+        return 0;
     }
 }
