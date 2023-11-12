@@ -1,12 +1,15 @@
 package org.soapService.Repository;
 
 import org.soapService.Config.Database;
+import org.soapService.Domain.AccountVerificationRequest;
 import org.soapService.Domain.CatalogRequest;
 import org.soapService.Domain.GetAllResponse;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,11 +32,74 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
     }
 
     public GetAllResponse<CatalogRequest> getAll(int page, int pageSize) throws SQLException {
-        return null;
+        page = Math.max(page, 0);
+        pageSize = Math.max(pageSize, 1);
+        int offset = pageSize * (page - 1);
+        String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at, count(*) over() AS total_page FROM catalog_requests LIMIT ? OFFSET ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, pageSize);
+        ps.setInt(2, offset);
+
+        ResultSet rs = ps.executeQuery();
+        List<CatalogRequest> rows = new ArrayList<>();
+        int totalPage = 0;
+
+        while (rs.next()) {
+            System.out.println(rs.getString(1));
+            System.out.println(rs.getString(10));
+
+            if (totalPage == 0) {
+                totalPage = rs.getInt(10);
+            }
+
+            CatalogRequest row = new CatalogRequest();
+            row.setId(rs.getInt(1));
+            row.setUuid(rs.getString(2));
+            row.setTitle(rs.getString(3));
+            row.setDescription(rs.getString(4));
+            row.setPoster(rs.getString(5));
+            row.setTrailer(rs.getString(6));
+            row.setCategory(rs.getString(7));
+            row.setCreatedAt(rs.getString(8));
+            row.setUpdatedAt(rs.getString(9));
+            rows.add(row);
+        }
+
+        GetAllResponse<CatalogRequest> response = new GetAllResponse<>();
+        response.setPage(page);
+        response.setTotalPage(totalPage);
+        response.setData(rows);
+        return response;
+
+
     }
 
     public CatalogRequest getById(int id) throws SQLException {
-        return null;
+        String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests WHERE id = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+        List<CatalogRequest> rows = new ArrayList<>();
+        while (rs.next()) {
+            CatalogRequest row = new CatalogRequest();
+            row.setId(rs.getInt(1));
+            row.setUuid(rs.getString(2));
+            row.setTitle(rs.getString(3));
+            row.setDescription(rs.getString(4));
+            row.setPoster(rs.getString(5));
+            row.setTrailer(rs.getString(6));
+            row.setCategory(rs.getString(7));
+            row.setCreatedAt(rs.getString(8));
+            row.setUpdatedAt(rs.getString(9));
+            rows.add(row);
+        }
+
+        if (rows.size() == 0) {
+            return null;
+        }
+
+        return rows.get(0);
     }
 
     public int update(CatalogRequest id) throws SQLException {
@@ -45,6 +111,9 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
     }
 
     public int delete(int id) throws SQLException {
-        return 0;
+        String query = "DELETE FROM catalog_requests WHERE id = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+        return ps.executeUpdate();
     }
 }
