@@ -144,17 +144,7 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
         List<AccountVerificationRequest> lru = new ArrayList<>();
         try {
             accountVerificationServiceValidation.validateRejectVerificationRequest(userId);
-            AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest();
-            accountVerificationRequest.setUserId(userId);
-            accountVerificationRequest.setStatus("REJECTED");
-
-            int res = accountVerificationRepository.update(accountVerificationRequest);
-            if (res == 0) {
-                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
-                        "This user doesn't have a request or already verified");
-            }
-
-            int deleteRes = accountVerificationRepository.delete(accountVerificationRequest.getUserId());
+            int deleteRes = accountVerificationRepository.delete(userId);
             if (deleteRes == 0) {
                 System.out.println("Failed to delete request");
             } else {

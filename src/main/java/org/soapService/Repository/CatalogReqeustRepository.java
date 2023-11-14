@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> {
 
     private static Connection conn = Database.getConnection();
@@ -37,15 +36,15 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests LIMIT ? OFFSET ?";
         String totalPageQuery = "SELECT COUNT(*) AS total_page FROM catalog_requests";
         PreparedStatement ps = conn.prepareStatement(query);
-        PreparedStatement totalPagePs = conn.prepareStatement(totalPageQuery);
+        PreparedStatement countPs = conn.prepareStatement(totalPageQuery);
         ps.setInt(1, pageSize);
         ps.setInt(2, offset);
 
         ResultSet rs = ps.executeQuery();
-        ResultSet totalPageRs = totalPagePs.executeQuery();
+        ResultSet countRs = countPs.executeQuery();
         int totalPage = 0;
-        while (totalPageRs.next()) {
-            totalPage = totalPageRs.getInt(1) / pageSize + 1;
+        while (countRs.next()) {
+            totalPage = countRs.getInt(1) / pageSize + 1;
         }
 
         List<CatalogRequest> rows = new ArrayList<>();
@@ -71,7 +70,6 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         response.setTotalPage(totalPage);
         response.setData(rows);
         return response;
-
 
     }
 
