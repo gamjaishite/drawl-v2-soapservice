@@ -18,15 +18,14 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
 
     private static Connection conn = Database.getConnection();
     public int add(CatalogRequest data) throws SQLException {
-        String query = "INSERT INTO catalog_requests(title, description, poster, trailer, category, uuid) VALUES (?, ?, ?, ?, ? ,?)";
+        String query = "INSERT INTO catalog_requests(uuid, title, description, poster, trailer, category) VALUES (?, ?, ?, ?, ? ,?)";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, data.getTitle());
-        ps.setString(2, data.getDescription());
-        ps.setString(3, data.getPoster());
-        ps.setString(4, data.getTrailer());
-        ps.setString(5, data.getCategory());
-        ps.setString(6, UUID.randomUUID().toString());
-
+        ps.setString(1, UUID.randomUUID().toString());
+        ps.setString(2, data.getTitle());
+        ps.setString(3, data.getDescription());
+        ps.setString(4, data.getPoster());
+        ps.setString(5, data.getTrailer());
+        ps.setString(6, data.getCategory());
 
         return ps.executeUpdate();
     }
@@ -35,22 +34,24 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         page = Math.max(page, 0);
         pageSize = Math.max(pageSize, 1);
         int offset = pageSize * (page - 1);
-        String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at, count(*) over() AS total_page FROM catalog_requests LIMIT ? OFFSET ?";
+        String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests LIMIT ? OFFSET ?";
+        String totalPageQuery = "SELECT COUNT(*) AS total_page FROM catalog_requests";
         PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement totalPagePs = conn.prepareStatement(totalPageQuery);
         ps.setInt(1, pageSize);
         ps.setInt(2, offset);
 
         ResultSet rs = ps.executeQuery();
-        List<CatalogRequest> rows = new ArrayList<>();
+        ResultSet totalPageRs = totalPagePs.executeQuery();
         int totalPage = 0;
+        while (totalPageRs.next()) {
+            totalPage = totalPageRs.getInt(1) / pageSize + 1;
+        }
+
+        List<CatalogRequest> rows = new ArrayList<>();
 
         while (rs.next()) {
             System.out.println(rs.getString(1));
-            System.out.println(rs.getString(10));
-
-            if (totalPage == 0) {
-                totalPage = rs.getInt(10);
-            }
 
             CatalogRequest row = new CatalogRequest();
             row.setId(rs.getInt(1));
@@ -102,7 +103,7 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         return rows.get(0);
     }
 
-    public int update(CatalogRequest id) throws SQLException {
+    public int update(CatalogRequest data) throws SQLException {
         return 0;
     }
 

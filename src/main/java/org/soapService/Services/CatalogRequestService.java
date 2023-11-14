@@ -16,7 +16,8 @@ import javax.xml.ws.soap.SOAPFaultException;
 public interface CatalogRequestService {
     @WebMethod(operationName = "CatalogCreateRequest")
     @RequestWrapper(className = "CatalogRequestService.CatalogCreateRequest")
-    public ServiceResponse createCatalogRequest(@WebParam(name = "title") String title,
+    public ServiceResponse createCatalogRequest(@WebParam(name = "uuid") String uuid,
+                                                @WebParam(name = "title") String title,
                                                 @WebParam(name = "description") String description,
                                                 @WebParam(name = "poster") String poster,
                                                 @WebParam(name = "trailer") String trailer,
@@ -24,7 +25,7 @@ public interface CatalogRequestService {
 
     @WebMethod(operationName = "GetRequests")
     @RequestWrapper(className = "CatalogRequestService.GetRequests")
-    public ServiceResponse<CatalogRequest> getCatalogRequests() throws SOAPFaultException;
+    public ServiceResponse<CatalogRequest> getCatalogRequests(@WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize) throws SOAPFaultException;
 
     @WebMethod(operationName = "GetRequest")
     @RequestWrapper(className = "CatalogRequestService.GetRequest")
@@ -32,11 +33,11 @@ public interface CatalogRequestService {
 
     @WebMethod(operationName = "AcceptRequest")
     @RequestWrapper(className = "CatalogRequestService.AcceptRequest")
-    public ServiceResponse acceptCatalogRequest(@WebParam(name = "requestId") int requestId) throws SOAPFaultException;
+    public ServiceResponse acceptCatalogRequest(@WebParam(name = "uuid") String uuid) throws SOAPFaultException;
 
     @WebMethod(operationName = "RejectRequest")
     @RequestWrapper(className = "CatalogRequestService.RejectRequest")
-    public ServiceResponse rejectCatalogRequest(@WebParam(name = "requestId") int requestId) throws SOAPFaultException;
+    public ServiceResponse rejectCatalogRequest(@WebParam(name = "uuid") String uuid) throws SOAPFaultException;
 
     @WebMethod(operationName = "DeleteRequest")
     @RequestWrapper(className = "CatalogRequestService.DeleteRequest")
