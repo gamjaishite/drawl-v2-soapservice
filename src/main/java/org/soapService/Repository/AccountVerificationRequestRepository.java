@@ -98,13 +98,22 @@ public class AccountVerificationRequestRepository implements BaseRepository<Acco
     }
 
     public void deleteAll() throws SQLException {
-
+        String query = "DELETE FROM account_verification_requests";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.executeUpdate();
     }
 
     public int delete(int id) throws SQLException {
-        String query = "DELETE FROM account_verification_requests WHERE id = ?";
+        String query = "DELETE FROM account_verification_requests WHERE id = ? ";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, id);
+        return ps.executeUpdate();
+    }
+
+    public int delete(String userId) throws SQLException {
+        String query = "DELETE FROM account_verification_requests WHERE user_id = ? ";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, userId);
         return ps.executeUpdate();
     }
 }
