@@ -7,7 +7,6 @@ import org.soapService.Domain.Log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 
 public class LogRepository implements BaseRepository<Log> {
 
@@ -39,7 +38,7 @@ public class LogRepository implements BaseRepository<Log> {
 
     }
 
-    public int delete(int id) throws SQLException {
+    public int delete(Log data) throws SQLException {
         return 0;
     }
 }

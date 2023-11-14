@@ -6,7 +6,9 @@ import org.soapService.Domain.ReportUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +27,44 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
     }
 
     public GetAllResponse<ReportUser> getAll(int page, int pageSize) throws SQLException {
-        return null;
+        page = Math.max(page, 0);
+        pageSize = Math.max(pageSize, 1);
+        int offset = pageSize * (page - 1);
+        String query = "SELECT * FROM report_users ORDER BY created_at DESC LIMIT ? OFFSET ?";
+        String totalPageQuery = "SELECT COUNT(*) AS total_page FROM report_users";
+        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement totalPagePs = conn.prepareStatement(totalPageQuery);
+        ps.setInt(1, pageSize);
+        ps.setInt(2, offset);
+
+        ResultSet rs = ps.executeQuery();
+        ResultSet totalPageRs = totalPagePs.executeQuery();
+        int totalPage = 0;
+        while (totalPageRs.next()) {
+            totalPage = (int) Math.ceil((double) totalPageRs.getInt(1) / pageSize);
+        }
+
+        List<ReportUser> rows = new ArrayList<>();
+
+        while (rs.next()) {
+            ReportUser row = new ReportUser();
+            row.setId(rs.getInt(1));
+            row.setUuid(rs.getString(2));
+            row.setContent(rs.getString(3));
+            row.setReporterId(rs.getString(4));
+            row.setReportedId(rs.getString(5));
+            row.setCreatedAt(rs.getString(6));
+            row.setUpdatedAt(rs.getString(7));
+
+            rows.add(row);
+        }
+
+        GetAllResponse<ReportUser> response = new GetAllResponse<>();
+        response.setPage(page);
+        response.setTotalPage(totalPage);
+        response.setData(rows);
+
+        return response;
     }
 
     public ReportUser getById(int id) throws SQLException {
@@ -40,7 +79,16 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
 
     }
 
-    public int delete(int id) throws SQLException {
-        return 0;
+    public int delete(ReportUser data) throws SQLException {
+        String query = "DELETE FROM report_users WHERE uuid = ?";
+        String identifier = data.getUuid();
+        if (data.getReportedId() != null) {
+            query = "DELETE FROM report_users WHERE reported_id = ?";
+            identifier = data.getReportedId();
+        }
+
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, identifier);
+        return ps.executeUpdate();
     }
 }

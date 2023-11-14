@@ -101,10 +101,10 @@ public class AccountVerificationRequestRepository implements BaseRepository<Acco
 
     }
 
-    public int delete(int id) throws SQLException {
+    public int delete(AccountVerificationRequest data) throws SQLException {
         String query = "DELETE FROM account_verification_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, id);
+        ps.setInt(1, data.getId());
         return ps.executeUpdate();
     }
 }

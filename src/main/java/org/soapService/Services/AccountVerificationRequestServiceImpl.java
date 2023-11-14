@@ -21,7 +21,7 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
     private static AccountVerificationRequestValidation accountVerificationServiceValidation = new AccountVerificationRequestValidation();
 
     public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(Integer page,
-            Integer pageSize)
+                                                                                                      Integer pageSize)
             throws SOAPFaultException {
         if (page == null) {
             page = 1;
@@ -191,7 +191,11 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
         List<AccountVerificationRequest> lru = new ArrayList<>();
         try {
             accountVerificationServiceValidation.validateDeleteVerificationRequest(requestId);
-            int res = accountVerificationRepository.delete(requestId);
+
+            AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest();
+            accountVerificationRequest.setId(requestId);
+
+            int res = accountVerificationRepository.delete(accountVerificationRequest);
 
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),

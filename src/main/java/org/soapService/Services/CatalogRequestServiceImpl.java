@@ -1,30 +1,19 @@
 package org.soapService.Services;
 
-import com.google.gson.Gson;
 import org.soapService.Common.HTTPStatusCode;
 import org.soapService.Common.ServiceResponse;
-import org.soapService.Domain.AccountVerificationRequest;
 import org.soapService.Domain.CatalogRequest;
 import org.soapService.Domain.GetAllResponse;
 import org.soapService.Exceptions.RequestException;
 import org.soapService.Exceptions.ValidationException;
-import org.soapService.Models.CatalogRequest.AcceptRequest;
-import org.soapService.Repository.AccountVerificationRequestRepository;
 import org.soapService.Repository.CatalogReqeustRepository;
 import org.soapService.Utils.FileType;
 import org.soapService.Utils.FileUploader;
-import org.soapService.Utils.HTTPRequest;
-import org.soapService.Utils.HTTPRequestMethod;
-import org.soapService.Validations.AccountVerificationRequestValidation;
 import org.soapService.Validations.CatalogValidation;
 
 import javax.activation.DataHandler;
 import javax.jws.WebService;
 import javax.xml.ws.soap.SOAPFaultException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,7 +208,11 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
         List<CatalogRequest> lcr = new ArrayList<>();
         try {
             catalogValidation.validateDeleteCatalogRequest(requestId);
-            int res = catalogRepository.delete(requestId);
+
+            CatalogRequest catalogRequest = new CatalogRequest();
+            catalogRequest.setId(requestId);
+
+            int res = catalogRepository.delete(catalogRequest);
 
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),

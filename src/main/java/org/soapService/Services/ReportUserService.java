@@ -1,6 +1,7 @@
 package org.soapService.Services;
 
 import org.soapService.Common.ServiceResponse;
+import org.soapService.Domain.GetAllResponse;
 import org.soapService.Domain.ReportUser;
 
 import javax.jws.HandlerChain;
@@ -17,19 +18,20 @@ import javax.xml.ws.soap.SOAPFaultException;
 public interface ReportUserService {
     @WebMethod(operationName = "CreateReport")
     @RequestWrapper(className = "ReportUserService.CreateReport")
-    public ServiceResponse<ReportUser> createReportUser(@WebParam(name = "content") String content,
-                                                        @WebParam(name = "reportedId") String reportedId,
-                                                        @WebParam(name = "reporterId") String reporterId) throws SOAPFaultException;
+    public ServiceResponse createReportUser(@WebParam(name = "content") String content,
+                                            @WebParam(name = "reportedId") String reportedId,
+                                            @WebParam(name = "reporterId") String reporterId) throws SOAPFaultException;
 
     @WebMethod(operationName = "GetReportedUsers")
     @RequestWrapper(className = "ReportUserService.GetReportedUsers")
-    public ServiceResponse<ReportUser> getReportedUsers() throws SOAPFaultException;
+    public ServiceResponse<GetAllResponse<ReportUser>> getReportedUsers(@WebParam(name = "page") Integer page,
+                                                                        @WebParam(name = "perPage") Integer perPage) throws SOAPFaultException;
 
     @WebMethod(operationName = "BlockUser")
     @RequestWrapper(className = "ReportUserService.BlockUser")
-    public ServiceResponse blockUser(@WebParam(name = "userId") int userId) throws SOAPFaultException;
+    public ServiceResponse blockUser(@WebParam(name = "reportedId") String reportedId) throws SOAPFaultException;
 
     @WebMethod(operationName = "DeleteReport")
     @RequestWrapper(className = "ReportUserService.DeleteReport")
-    public ServiceResponse deleteReportUser(@WebParam(name = "reportId") int reportId) throws SOAPFaultException;
+    public ServiceResponse deleteReportUser(@WebParam(name = "reportId") String reportId) throws SOAPFaultException;
 }

@@ -1,7 +1,6 @@
 package org.soapService.Repository;
 
 import org.soapService.Config.Database;
-import org.soapService.Domain.AccountVerificationRequest;
 import org.soapService.Domain.CatalogRequest;
 import org.soapService.Domain.GetAllResponse;
 
@@ -17,6 +16,7 @@ import java.util.UUID;
 public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> {
 
     private static Connection conn = Database.getConnection();
+
     public int add(CatalogRequest data) throws SQLException {
         String query = "INSERT INTO catalog_requests(uuid, title, description, poster, trailer, category) VALUES (?, ?, ?, ?, ? ,?)";
         PreparedStatement ps = conn.prepareStatement(query);
@@ -111,10 +111,10 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
 
     }
 
-    public int delete(int id) throws SQLException {
+    public int delete(CatalogRequest data) throws SQLException {
         String query = "DELETE FROM catalog_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, id);
+        ps.setInt(1, data.getId());
         return ps.executeUpdate();
     }
 }

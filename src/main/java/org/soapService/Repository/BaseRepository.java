@@ -1,8 +1,8 @@
 package org.soapService.Repository;
 
-import java.sql.SQLException;
-
 import org.soapService.Domain.GetAllResponse;
+
+import java.sql.SQLException;
 
 public interface BaseRepository<T> {
     public int add(T data) throws SQLException;
@@ -15,6 +15,6 @@ public interface BaseRepository<T> {
 
     public void deleteAll() throws SQLException;
 
-    public int delete(int id) throws SQLException;
+    public int delete(T data) throws SQLException;
 
 }
