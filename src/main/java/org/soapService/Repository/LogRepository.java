@@ -38,7 +38,7 @@ public class LogRepository implements BaseRepository<Log> {
 
     }
 
-    public int delete(Log data) throws SQLException {
+    public int delete(int id) throws SQLException {
         return 0;
     }
 }

@@ -79,16 +79,24 @@ public class ReportUserRepository implements BaseRepository<ReportUser> {
 
     }
 
-    public int delete(ReportUser data) throws SQLException {
-        String query = "DELETE FROM report_users WHERE uuid = ?";
-        String identifier = data.getUuid();
-        if (data.getReportedId() != null) {
-            query = "DELETE FROM report_users WHERE reported_id = ?";
-            identifier = data.getReportedId();
-        }
-
+    public int delete(int id) throws SQLException {
+        String query = "DELETE FROM report_users WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, identifier);
+        ps.setInt(1, id);
+        return ps.executeUpdate();
+    }
+
+    public int deleteByReportedId(String reportedId) throws SQLException {
+        String query = "DELETE FROM report_users WHERE reported_id = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, reportedId);
+        return ps.executeUpdate();
+    }
+
+    public int deleteByUuid(String uuid) throws SQLException {
+        String query = "DELETE FROM report_users WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, uuid);
         return ps.executeUpdate();
     }
 }

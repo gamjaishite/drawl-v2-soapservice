@@ -153,6 +153,13 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
                         "This user doesn't have a request or already verified");
             }
+
+            int deleteRes = accountVerificationRepository.delete(accountVerificationRequest.getUserId());
+            if (deleteRes == 0) {
+                System.out.println("Failed to delete request");
+            } else {
+                System.out.println("Successfully delete request");
+            }
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), e.getMessage());
@@ -192,10 +199,7 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
         try {
             accountVerificationServiceValidation.validateDeleteVerificationRequest(requestId);
 
-            AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest();
-            accountVerificationRequest.setId(requestId);
-
-            int res = accountVerificationRepository.delete(accountVerificationRequest);
+            int res = accountVerificationRepository.delete(requestId);
 
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),

@@ -75,11 +75,8 @@ public class ReportUserServiceImpl extends BaseService implements ReportUserServ
         try {
             reportUserServiceValidation.validateBlockUser(reportedId);
 
-            ReportUser reportUser = new ReportUser();
-            reportUser.setReportedId(reportedId);
-
             // delete all report to the user
-            int res = reportUserRepository.delete(reportUser);
+            int res = reportUserRepository.deleteByReportedId(reportedId);
 
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "The report with following User ID doesn't exist");
@@ -115,10 +112,7 @@ public class ReportUserServiceImpl extends BaseService implements ReportUserServ
         try {
             reportUserServiceValidation.validateDeleteReportUser(reportId);
 
-            ReportUser reportUser = new ReportUser();
-            reportUser.setUuid(reportId);
-
-            int res = reportUserRepository.delete(reportUser);
+            int res = reportUserRepository.deleteByUuid(reportId);
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "This report doesn't exist");
             }

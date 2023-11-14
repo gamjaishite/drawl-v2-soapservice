@@ -209,10 +209,7 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
         try {
             catalogValidation.validateDeleteCatalogRequest(requestId);
 
-            CatalogRequest catalogRequest = new CatalogRequest();
-            catalogRequest.setId(requestId);
-
-            int res = catalogRepository.delete(catalogRequest);
+            int res = catalogRepository.delete(requestId);
 
             if (res == 0) {
                 new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),

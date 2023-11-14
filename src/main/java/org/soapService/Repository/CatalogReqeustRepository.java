@@ -111,10 +111,10 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
 
     }
 
-    public int delete(CatalogRequest data) throws SQLException {
+    public int delete(int id) throws SQLException {
         String query = "DELETE FROM catalog_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, data.getId());
+        ps.setInt(1, id);
         return ps.executeUpdate();
     }
 }

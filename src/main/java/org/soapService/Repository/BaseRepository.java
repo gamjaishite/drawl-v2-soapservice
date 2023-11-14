@@ -15,6 +15,6 @@ public interface BaseRepository<T> {
 
     public void deleteAll() throws SQLException;
 
-    public int delete(T data) throws SQLException;
+    public int delete(int id) throws SQLException;
 
 }
