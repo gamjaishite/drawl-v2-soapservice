@@ -19,7 +19,8 @@ public interface AccountVerificationRequestService {
         @WebMethod(operationName = "GetRequests")
         @RequestWrapper(className = "AccountVerificationRequestService.GetRequests")
         public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(
-                        @WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize)
+                        @WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize,
+                        @WebParam(name = "status") String status)
                         throws SOAPFaultException;
 
         @WebMethod(operationName = "CreateRequest")

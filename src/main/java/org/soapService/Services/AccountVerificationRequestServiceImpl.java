@@ -21,7 +21,8 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
     private static AccountVerificationRequestValidation accountVerificationServiceValidation = new AccountVerificationRequestValidation();
 
     public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(Integer page,
-                                                                                                      Integer pageSize)
+            Integer pageSize,
+            String status)
             throws SOAPFaultException {
         if (page == null) {
             page = 1;
@@ -33,7 +34,11 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
 
         List<GetAllResponse<AccountVerificationRequest>> lru = new ArrayList<>();
         try {
-            lru.add(accountVerificationRepository.getAll(page, pageSize));
+            if (status == null) {
+                lru.add(accountVerificationRepository.getAll(page, pageSize));
+            } else {
+                lru.add(accountVerificationRepository.getAll(page, pageSize, status));
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
