@@ -70,12 +70,14 @@ public class AccountVerificationRequestRepository implements BaseRepository<Acco
         pageSize = Math.max(pageSize, 1);
         int offset = pageSize * (page - 1);
         String query = "SELECT id, uuid, user_id, status, created_at, updated_at FROM account_verification_requests WHERE status = ? LIMIT ? OFFSET ?";
-        String totalPageQuery = "SELECT COUNT(*) AS total_page FROM account_verification_requests";
+        String totalPageQuery = "SELECT COUNT(*) AS total_page FROM account_verification_requests WHERE status = ?";
         PreparedStatement ps = conn.prepareStatement(query);
         PreparedStatement totalPagePs = conn.prepareStatement(totalPageQuery);
         ps.setString(1, status);
         ps.setInt(2, pageSize);
         ps.setInt(3, offset);
+
+        totalPagePs.setString(1, status);
 
         ResultSet rs = ps.executeQuery();
         ResultSet totalPageRs = totalPagePs.executeQuery();
@@ -83,6 +85,8 @@ public class AccountVerificationRequestRepository implements BaseRepository<Acco
         int totalPage = 0;
         while (totalPageRs.next()) {
             totalPage = (int) Math.ceil((double) totalPageRs.getInt(1) / pageSize);
+            System.out.println("Total page " + totalPage);
+            System.out.println("Total page rs " + totalPageRs.getInt(1));
         }
 
         List<AccountVerificationRequest> rows = new ArrayList<>();

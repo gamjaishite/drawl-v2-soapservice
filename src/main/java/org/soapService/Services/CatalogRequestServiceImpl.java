@@ -24,7 +24,7 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
     private static CatalogReqeustRepository catalogRepository = new CatalogReqeustRepository();
     private static CatalogValidation catalogValidation = new CatalogValidation();
 
-    public ServiceResponse<CatalogRequest> getCatalogRequests(Integer page, Integer pageSize) throws SOAPFaultException {
+    public ServiceResponse<GetAllResponse<CatalogRequest>> getCatalogRequests(Integer page, Integer pageSize) throws SOAPFaultException {
         if (page == null) {
             page = 1;
         }
@@ -47,12 +47,13 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
         response.setData(lcr);
 
         lcr.forEach((item) -> {
+            System.out.print(item.getPage());
             item.getData().forEach((data) -> {
                 System.out.println(data.getId());
             });
         });
 
-        return null;
+        return response;
     }
 
     public ServiceResponse<CatalogRequest> getCatalogRequest(int requestId) throws SOAPFaultException {

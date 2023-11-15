@@ -44,7 +44,9 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         ResultSet countRs = countPs.executeQuery();
         int totalPage = 0;
         while (countRs.next()) {
-            totalPage = countRs.getInt(1) / pageSize + 1;
+            totalPage = (int) Math.ceil((double) countRs.getInt(1) / pageSize);
+            System.out.println("Total page " + totalPage);
+            System.out.println("Total page rs " + countRs.getInt(1));
         }
 
         List<CatalogRequest> rows = new ArrayList<>();

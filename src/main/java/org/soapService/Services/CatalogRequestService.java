@@ -2,6 +2,7 @@ package org.soapService.Services;
 
 import org.soapService.Common.ServiceResponse;
 import org.soapService.Domain.CatalogRequest;
+import org.soapService.Domain.GetAllResponse;
 
 import javax.activation.DataHandler;
 import javax.jws.HandlerChain;
@@ -25,7 +26,7 @@ public interface CatalogRequestService {
 
     @WebMethod(operationName = "GetRequests")
     @RequestWrapper(className = "CatalogRequestService.GetRequests")
-    public ServiceResponse<CatalogRequest> getCatalogRequests(@WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize) throws SOAPFaultException;
+    public ServiceResponse<GetAllResponse<CatalogRequest>> getCatalogRequests(@WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize) throws SOAPFaultException;
 
     @WebMethod(operationName = "GetRequest")
     @RequestWrapper(className = "CatalogRequestService.GetRequest")
