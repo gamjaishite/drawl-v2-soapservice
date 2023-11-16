@@ -9,5 +9,5 @@ FROM amazoncorretto:8-alpine-jdk
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/target/drawl_soap-jar-with-dependencies.jar ./target/
 COPY .env .
-EXPOSE 8082
+EXPOSE 8083
 CMD ["java","-jar","./target/drawl_soap-jar-with-dependencies.jar"]

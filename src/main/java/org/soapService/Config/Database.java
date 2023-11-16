@@ -12,10 +12,16 @@ public class Database {
 
     static {
         Dotenv dotenv = Dotenv.load();
-        String url = "jdbc:mysql://" + dotenv.get("DB_HOST") + ":" + dotenv.get("DB_PORT") + "/" + dotenv.get("DB_NAME");
+        String url = "jdbc:mysql://" + dotenv.get("DB_HOST") + ":" + dotenv.get("DB_PORT") + "/"
+                + dotenv.get("DB_NAME");
         String user = dotenv.get("DB_USER");
         String password = dotenv.get("DB_PASSWORD");
 
+        System.out.println(url);
+
+        System.out.println(user);
+
+        System.out.println(password);
         try {
             conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
