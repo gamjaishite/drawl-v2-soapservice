@@ -19,10 +19,10 @@ public class FileUploader {
             String mimeTypes = tika.detect(dataHandler.getInputStream());
             int size = IOUtils.toByteArray(dataHandler.getInputStream()).length;
 
-            System.out.println("MIME Types: " + mimeTypes);
+            System.out.println("MIME Types: " + mimeTypes + " " + mimeTypes.matches("^image/(jpg|jpeg|png|webp)$"));
             System.out.println("Size Image: " + size);
 
-            if (!mimeTypes.equals("image/webp") || size > MAX_IMAGE_SIZE) {
+            if (!mimeTypes.matches("^image/(jpg|jpeg|png|webp)$") || size > MAX_IMAGE_SIZE) {
                 return false;
             }
 
@@ -51,15 +51,20 @@ public class FileUploader {
         }
     }
 
-    public static void upload(DataHandler dataHandler, FileType fileType) throws IOException {
+    public static String upload(DataHandler dataHandler, FileType fileType) throws IOException {
         File file = null;
+        String filename = "";
         if (fileType == FileType.IMAGE) {
-            file = new File("src/main/resources/posters/poster_" + UUID.randomUUID() + ".webp");
+            filename = "poster_" + UUID.randomUUID() + ".webp";
+            file = new File("src/main/resources/posters/" + filename);
         } else {
-            file = new File("src/main/resources/trailers/trailer_" + UUID.randomUUID() + ".mp4");
+            filename = "trailer_" + UUID.randomUUID() + ".mp4";
+            file = new File("src/main/resources/trailers/" + filename);
         }
 
         java.nio.file.Files.copy(dataHandler.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         IOUtils.closeQuietly(dataHandler.getInputStream());
+
+        return filename;
     }
 }

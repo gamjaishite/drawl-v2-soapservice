@@ -16,6 +16,8 @@ public class HTTPRequest {
         Dotenv dotenv = Dotenv.load();
         URL url = new URL(dotenv.get("PHP_SERVICE_BASE_URL") + endpoint);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Authorization", "Bearer " + dotenv.get("PHP_OUTBOUND_API_KEY"));
+        System.out.println(conn.getRequestProperty("Authorization"));
         conn.setRequestMethod(method.name());
         return conn;
     }

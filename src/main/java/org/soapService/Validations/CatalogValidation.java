@@ -4,21 +4,16 @@ import org.soapService.Common.HTTPStatusCode;
 import org.soapService.Exceptions.ValidationException;
 
 public class CatalogValidation {
-    public void validateCreateCatalogRequest(String uuid, String title, String description, String poster, String trailer, String category) throws ValidationException {
+    public void validateCreateCatalogRequest(String uuid, String title, String description, String poster,
+            String trailer, String category) throws ValidationException {
         if (uuid == null || uuid.trim().isEmpty()) {
             throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Title is required");
         }
         if (title == null || title.trim().isEmpty()) {
             throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Title is required");
         }
-        if (description == null || description.trim().isEmpty()) {
-            throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Description is required");
-        }
         if (poster == null || poster.trim().isEmpty()) {
             throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Poster is required");
-        }
-        if (trailer == null || trailer.trim().isEmpty()) {
-            throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Trailer is required");
         }
         if (category == null || category.trim().isEmpty()) {
             throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Category is required");
