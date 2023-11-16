@@ -1,4 +1,4 @@
-FROM maven:3.8.1-amazoncorretto-8 AS build
+FROM maven:3.9-amazoncorretto-8 AS build
 WORKDIR /app
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebService(endpointInterface = "org.soapService.Services.ReportUserService")
-public class ReportUserServiceImpl extends BaseService implements ReportUserService {
+public class ReportUserServiceImpl implements ReportUserService {
     private static ReportUserRepository reportUserRepository = new ReportUserRepository();
     private static ReportUserServiceValidation reportUserServiceValidation = new ReportUserServiceValidation();
 

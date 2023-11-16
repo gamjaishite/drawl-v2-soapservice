@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 @WebService(endpointInterface = "org.soapService.Services.AccountVerificationRequestService")
-public class AccountVerificationRequestServiceImpl extends BaseService implements AccountVerificationRequestService {
+public class AccountVerificationRequestServiceImpl implements AccountVerificationRequestService {
     private static AccountVerificationRequestRepository accountVerificationRepository = new AccountVerificationRequestRepository();
     private static AccountVerificationRequestValidation accountVerificationServiceValidation = new AccountVerificationRequestValidation();
 

@@ -1,7 +1,6 @@
 package org.soapService.Handlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.xml.internal.ws.developer.JAXWSProperties;
 import org.soapService.Domain.Log;
 import org.soapService.Repository.LogRepository;
 import org.w3c.dom.NodeList;
@@ -28,14 +27,14 @@ public class LogHandler implements SOAPHandler<SOAPMessageContext> {
 
     public boolean handleMessage(SOAPMessageContext context) {
         Boolean outboundProperty = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-        HttpExchange httpExchange = (HttpExchange) context.get(JAXWSProperties.HTTP_EXCHANGE);
+        HttpExchange httpExchange = (HttpExchange) context.get("com.sun.xml.internal.ws.http.exchange");
 
         if (!outboundProperty) {
             String ip = httpExchange.getRemoteAddress().getAddress().toString().replace("/", "");
             String endpoint = httpExchange.getRequestURI().toString();
             String operation = "";
             Map<String, String> args = new HashMap<>();
-            
+
             try {
                 SOAPBody soapBody = context.getMessage().getSOAPBody();
 

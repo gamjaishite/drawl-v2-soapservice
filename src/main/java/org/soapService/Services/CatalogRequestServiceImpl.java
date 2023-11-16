@@ -1,5 +1,6 @@
 package org.soapService.Services;
 
+import com.google.gson.Gson;
 import org.soapService.Common.HTTPStatusCode;
 import org.soapService.Common.ServiceResponse;
 import org.soapService.Domain.CatalogRequest;
@@ -14,12 +15,9 @@ import org.soapService.Utils.HTTPRequest;
 import org.soapService.Utils.HTTPRequestMethod;
 import org.soapService.Validations.CatalogValidation;
 
-import com.google.gson.Gson;
-
 import javax.activation.DataHandler;
 import javax.jws.WebService;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -29,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebService(endpointInterface = "org.soapService.Services.CatalogRequestService")
-public class CatalogRequestServiceImpl extends BaseService implements CatalogRequestService {
+public class CatalogRequestServiceImpl implements CatalogRequestService {
 
     private static CatalogRequestRepository catalogRepository = new CatalogRequestRepository();
     private static CatalogValidation catalogValidation = new CatalogValidation();
@@ -76,7 +74,7 @@ public class CatalogRequestServiceImpl extends BaseService implements CatalogReq
     }
 
     public ServiceResponse<CatalogRequest> createCatalogRequest(String uuid, String title, String description,
-            String poster, String trailer, String category)
+                                                                String poster, String trailer, String category)
             throws SOAPFaultException {
         List<CatalogRequest> lcr = new ArrayList<>();
         try {
