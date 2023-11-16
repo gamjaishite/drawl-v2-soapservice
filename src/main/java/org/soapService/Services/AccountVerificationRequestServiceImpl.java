@@ -27,7 +27,8 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
     private static AccountVerificationRequestValidation accountVerificationServiceValidation = new AccountVerificationRequestValidation();
 
     public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(Integer page,
-                                                                                                      Integer pageSize)
+                                                                                                      Integer pageSize,
+                                                                                                      String status)
             throws SOAPFaultException {
         if (page == null) {
             page = 1;
@@ -39,7 +40,11 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
 
         List<GetAllResponse<AccountVerificationRequest>> lru = new ArrayList<>();
         try {
-            lru.add(accountVerificationRepository.getAll(page, pageSize));
+            if (status == null) {
+                lru.add(accountVerificationRepository.getAll(page, pageSize));
+            } else {
+                lru.add(accountVerificationRepository.getAll(page, pageSize, status));
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(),
@@ -130,7 +135,7 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
             };
             Session session = Session.getInstance(props, auth);
 
-            Email.send(session, "DQ Admin", email, "Drawl Purple", "Congratulation! You're now titled as Drawl Purple User 🎉 <br/> Enjoy the benefits! Visit <b>DQ</b> now! <br/> Best regards, DQ Teams.");
+            Email.send(session, "DQ Admin", email, "Drawl Purple", "Congratulation! You're now titled as Drawl Purple User 🎉!! <br/><br/> Enjoy the benefits! Visit <b>DQ</b> now! <br/><br/> Best regards, <br/> DQ Teams.");
 
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
@@ -170,17 +175,7 @@ public class AccountVerificationRequestServiceImpl extends BaseService implement
         List<AccountVerificationRequest> lru = new ArrayList<>();
         try {
             accountVerificationServiceValidation.validateRejectVerificationRequest(userId);
-            AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest();
-            accountVerificationRequest.setUserId(userId);
-            accountVerificationRequest.setStatus("REJECTED");
-
-            int res = accountVerificationRepository.update(accountVerificationRequest);
-            if (res == 0) {
-                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(),
-                        "This user doesn't have a request or already verified");
-            }
-
-            int deleteRes = accountVerificationRepository.delete(accountVerificationRequest.getUserId());
+            int deleteRes = accountVerificationRepository.delete(userId);
             if (deleteRes == 0) {
                 System.out.println("Failed to delete request");
             } else {

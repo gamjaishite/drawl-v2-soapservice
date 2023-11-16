@@ -16,11 +16,12 @@ import javax.xml.ws.soap.SOAPFaultException;
 @XmlSeeAlso({ServiceResponse.class})
 @HandlerChain(file = "handler-chain.xml")
 public interface AccountVerificationRequestService {
-    @WebMethod(operationName = "GetRequests")
-    @RequestWrapper(className = "AccountVerificationRequestService.GetRequests")
-    public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(
-            @WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize)
-            throws SOAPFaultException;
+        @WebMethod(operationName = "GetRequests")
+        @RequestWrapper(className = "AccountVerificationRequestService.GetRequests")
+        public ServiceResponse<GetAllResponse<AccountVerificationRequest>> getAccountVerificationRequests(
+                        @WebParam(name = "page") Integer page, @WebParam(name = "pageSize") Integer pageSize,
+                        @WebParam(name = "status") String status)
+                        throws SOAPFaultException;
 
     @WebMethod(operationName = "CreateRequest")
     @RequestWrapper(className = "AccountVerificationRequestService.AccountVerificationCreateRequest")

@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
-public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> {
+public class CatalogRequestRepository implements BaseRepository<CatalogRequest> {
 
     private static Connection conn = Database.getConnection();
 
@@ -37,22 +36,22 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests LIMIT ? OFFSET ?";
         String totalPageQuery = "SELECT COUNT(*) AS total_page FROM catalog_requests";
         PreparedStatement ps = conn.prepareStatement(query);
-        PreparedStatement totalPagePs = conn.prepareStatement(totalPageQuery);
+        PreparedStatement countPs = conn.prepareStatement(totalPageQuery);
         ps.setInt(1, pageSize);
         ps.setInt(2, offset);
 
         ResultSet rs = ps.executeQuery();
-        ResultSet totalPageRs = totalPagePs.executeQuery();
+        ResultSet countRs = countPs.executeQuery();
         int totalPage = 0;
-        while (totalPageRs.next()) {
-            totalPage = totalPageRs.getInt(1) / pageSize + 1;
+        while (countRs.next()) {
+            totalPage = (int) Math.ceil((double) countRs.getInt(1) / pageSize);
+            System.out.println("Total page " + totalPage);
+            System.out.println("Total page rs " + countRs.getInt(1));
         }
 
         List<CatalogRequest> rows = new ArrayList<>();
 
         while (rs.next()) {
-            System.out.println(rs.getString(1));
-
             CatalogRequest row = new CatalogRequest();
             row.setId(rs.getInt(1));
             row.setUuid(rs.getString(2));
@@ -72,13 +71,40 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         response.setData(rows);
         return response;
 
-
     }
 
     public CatalogRequest getById(int id) throws SQLException {
         String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+        List<CatalogRequest> rows = new ArrayList<>();
+        while (rs.next()) {
+            CatalogRequest row = new CatalogRequest();
+            row.setId(rs.getInt(1));
+            row.setUuid(rs.getString(2));
+            row.setTitle(rs.getString(3));
+            row.setDescription(rs.getString(4));
+            row.setPoster(rs.getString(5));
+            row.setTrailer(rs.getString(6));
+            row.setCategory(rs.getString(7));
+            row.setCreatedAt(rs.getString(8));
+            row.setUpdatedAt(rs.getString(9));
+            rows.add(row);
+        }
+
+        if (rows.size() == 0) {
+            return null;
+        }
+
+        return rows.get(0);
+    }
+
+    public CatalogRequest getByUUID(String uuid) throws SQLException {
+        String query = "SELECT id, uuid, title, description, poster, trailer, category, created_at, updated_at FROM catalog_requests WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, uuid);
 
         ResultSet rs = ps.executeQuery();
         List<CatalogRequest> rows = new ArrayList<>();
@@ -115,6 +141,13 @@ public class CatalogReqeustRepository implements BaseRepository<CatalogRequest> 
         String query = "DELETE FROM catalog_requests WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setInt(1, id);
+        return ps.executeUpdate();
+    }
+
+    public int delete(String uuid) throws SQLException {
+        String query = "DELETE FROM catalog_requests WHERE uuid = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, uuid);
         return ps.executeUpdate();
     }
 }

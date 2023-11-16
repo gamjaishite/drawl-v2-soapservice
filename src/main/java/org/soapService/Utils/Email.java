@@ -22,7 +22,7 @@ public class Email {
             message.setFrom(new InternetAddress(dotenv.get("EMAIL_ADDRESS"), senderName));
             message.setReplyTo(InternetAddress.parse(dotenv.get("EMAIL_ADDRESS"), false));
             message.setSubject(subject, "UTF-8");
-            message.setText(body, "UTF-8");
+            message.setContent(body, "text/html; charset=UTF-8");
             message.setSentDate(new Date());
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
 
