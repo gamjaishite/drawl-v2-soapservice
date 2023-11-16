@@ -17,11 +17,14 @@ public class AccountVerificationRequestValidation {
         }
     }
 
-    public void validateAcceptVerificationRequest(String userId) throws ValidationException {
+    public void validateAcceptVerificationRequest(String userId, String email) throws ValidationException {
         System.out.println(userId);
         System.out.println(userId.trim());
         if (userId == null || userId.trim().equals("")) {
             throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "User ID is required");
+        }
+        if (email == null || email.trim().isEmpty()) {
+            throw new ValidationException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Email is required");
         }
     }
 
