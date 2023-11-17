@@ -309,24 +309,4 @@ public class CatalogRequestServiceImpl implements CatalogRequestService {
 
         return response;
     }
-
-    public ServiceResponse<CatalogRequest> testUpload(DataHandler dataHandler) throws SOAPFaultException {
-        try {
-            boolean valid = FileUploader.validateImage(dataHandler);
-            if (valid) {
-                FileUploader.upload(dataHandler, FileType.IMAGE);
-            } else {
-                new RequestException(HTTPStatusCode.BAD_REQUEST.getCodeStr(), "Invalid data");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new RequestException(HTTPStatusCode.INTERNAL_SERVER_ERROR.getCodeStr(), e.getMessage());
-        }
-
-        ServiceResponse<CatalogRequest> response = new ServiceResponse<>();
-        response.setStatus(HTTPStatusCode.OK.getCodeStr());
-        response.setMessage("Success");
-
-        return response;
-    }
 }

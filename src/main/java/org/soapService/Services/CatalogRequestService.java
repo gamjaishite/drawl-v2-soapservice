@@ -48,9 +48,4 @@ public interface CatalogRequestService {
         @RequestWrapper(className = "CatalogRequestService.DeleteRequest")
         public ServiceResponse<CatalogRequest> deleteCatalogRequest(@WebParam(name = "requestId") int requestId)
                         throws SOAPFaultException;
-
-        @WebMethod(operationName = "TestUpload")
-        @RequestWrapper(className = "CatalogRequestService.TestUpload")
-        public ServiceResponse<CatalogRequest> testUpload(@WebParam(name = "data") DataHandler data)
-                        throws SOAPFaultException;
 }
